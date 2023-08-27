@@ -1,0 +1,74 @@
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+
+public class Main {
+
+    static class dot implements Comparable<dot>{
+        int x;
+        int d;
+        int index;
+
+        dot(int x, int d, int index){
+            this.x = x; //점의 위치
+            this.d = d; //시작점, 끝점여부
+            this.index = index;//해당 선분의 index
+        }
+
+        @Override
+        public int compareTo(dot p){ //오름차순정렬, x를 기준으로 정렬하기 위해
+            return this.x - p.x;
+        }
+    }
+
+
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+
+        ArrayList<dot> list = new ArrayList<>();
+
+        int start, end;
+
+        for(int i = 0;i<n;i++){
+            st = new StringTokenizer(br.readLine());
+
+            start = Integer.parseInt(st.nextToken()); //시작점
+            end = Integer.parseInt(st.nextToken()); //끝점
+
+            list.add(new dot(start,+1,i)); //시작점 리스트에 넣기
+            list.add(new dot(end,-1,i)); //끝점 리스트에 넣기
+        }
+
+        Collections.sort(list);
+
+        HashSet<Integer> s = new HashSet<>();
+
+        int ans = 0;
+
+        for(int i = 0;i<2*n;i++){ //리스트마다 탐색
+            int x = list.get(i).x;
+            int d = list.get(i).d;
+            int index = list.get(i).index;
+
+            if(d == +1){//해당 dot가 시작점이면
+                if(s.size() == 0) ans++;//만약 s가 비어있으면 새로운 선분의 시작이므로 답에 1을 추가해준다.
+                s.add(index); //현재 탐색중인 선분에 index추가
+            }
+
+            else{
+                s.remove(index);//끝점을 만나면 현재 탐색중인 선분에 index 삭제
+            }
+        }
+
+        System.out.println(ans);
+
+
+
+       
+
+    }
+}
