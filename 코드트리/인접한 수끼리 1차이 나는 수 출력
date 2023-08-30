@@ -1,0 +1,46 @@
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+
+public class Main {
+
+    static int n;
+    static int[] arr;
+    static StringBuilder sb;
+
+    static void ok(int k){
+        if(k == n){
+            pr();
+        }
+        else{
+            for(int i = 1;i<=9;i++){
+                if(k == 0 || Math.abs(arr[k-1] - i) == 1){
+                    arr[k] = i;
+                    ok(k+1);
+                }
+            }
+        }
+    }
+
+    static void pr(){
+        for(int i =0;i<n;i++){
+            sb.append(arr[i]);
+        }
+        sb.append("\n");
+    }
+
+    public static void main(String[] args) throws IOException{
+       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+       sb = new StringBuilder();
+       n = Integer.parseInt(br.readLine());
+
+       arr = new int[n];
+       ok(0);
+
+       System.out.println(sb);
+
+       
+    }
+}
