@@ -1,0 +1,79 @@
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+
+        TreeSet<Integer> m = new TreeSet<>();
+
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0;i<n;i++){
+            st = new StringTokenizer(br.readLine());
+            String k = st.nextToken();
+            
+            if(k.equals("add")){
+                int a = Integer.parseInt(st.nextToken());
+                m.add(a);
+            }
+
+            else if(k.equals("find")){
+                int a = Integer.parseInt(st.nextToken());
+                if(m.contains(a)){
+                    sb.append("true" + "\n");
+                }
+                else sb.append("false\n");
+            }
+
+            else if(k.equals("remove")){
+                int a = Integer.parseInt(st.nextToken());
+                m.remove(a);
+            }
+            
+            else if(k.equals("upper_bound")){
+                
+                int a = Integer.parseInt(st.nextToken());
+                
+                if(m.higher(a) == null){
+                    sb.append("None\n");
+                }
+                else sb.append(m.higher(a) + "\n");
+            }
+
+            else if(k.equals("lower_bound")){
+                 int a = Integer.parseInt(st.nextToken());
+               
+                if(m.ceiling(a) == null){
+                    sb.append("None\n");
+                }
+                else sb.append(m.ceiling(a) + "\n");
+            }
+            else if(k.equals("largest")){
+                 
+                  if(m.isEmpty()){
+                    sb.append("None\n");
+                   }
+                
+                  else sb.append(m.last() + "\n");
+            }
+            else if(k.equals("smallest")){
+               
+                 if(m.isEmpty()){
+                    sb.append("None\n");
+                    continue;
+                }
+                
+                else sb.append(m.first() + "\n");
+            }
+        }
+
+        System.out.println(sb);
+
+
+    }
+}
