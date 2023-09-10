@@ -1,0 +1,40 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        long s = Long.parseLong(br.readLine());
+
+        int left = 0;
+        int right = 100000;
+        int mid = 0;
+
+        while(left <= right){
+            //mid의 값을 찾고, 이 값이 s보다 크거나 작은지 확인한다.
+            mid = (left + right)/2;
+
+            long midSum = (((long)mid)*(long)(mid+1))/2;
+           // System.out.println(midSum);
+
+            if(midSum == s){
+                 System.out.println(mid);
+                break;
+                
+            }
+            else if(midSum < s){
+                 if(((long)(mid+2)*(long)(mid+1))/2 > s){
+                    System.out.println(mid);
+                    System.exit(0);
+                }
+                else left = mid + 1;
+            }
+            else{
+                 right = mid -1;
+            }
+
+        }
+
+    }
+}
