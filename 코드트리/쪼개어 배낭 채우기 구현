@@ -1,0 +1,71 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+
+    static class j implements Comparable<j>{
+        int w;
+        int p;
+        j(int w, int p){
+            this.w = w;
+            this.p = p;
+        }
+
+        @Override
+        public int compareTo(j n){
+            double x = (double)n.p/(double)n.w - (double)this.p /  (double)this.w;
+            if(x < 0) return -1;
+            else if(x == 0) return 0;
+            else return 1;
+        }
+
+    }
+
+    static ArrayList<j> jj = new ArrayList<>();
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+
+
+        for(int i =0;i<n;i++){
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            jj.add(new j(a,b));
+        }
+
+        Collections.sort(jj);
+        
+        double pp = 0;
+
+        for(int i =0;i<n;i++){
+            //System.out.println(m);
+           int w = jj.get(i).w;
+           int v = jj.get(i).p;
+
+           if(m >= w){
+            pp+= v;
+            m -= w;
+           }
+           else{
+            for(int j = w-1;j>=0;j--){
+                if(m >= j){
+                    pp += ((double)v/(double)w) * j;
+                    m -= j;
+                    break;
+                }
+            }
+           }
+        }
+
+        System.out.printf("%.3f",pp);
+
+
+
+    }
+}
