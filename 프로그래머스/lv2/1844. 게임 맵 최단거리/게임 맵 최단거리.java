@@ -1,53 +1,56 @@
 import java.util.*;
-import java.io.*;
-import java.math.*;
+
+class Coor{
+    int x;
+    int y;
+    int count;
+    public Coor(int x, int y, int count){
+        this.x=x;
+        this.y=y;
+        this.count = count;
+    }
+}
 
 class Solution {
-    static class pair{
-        int a;
-        int b;
-        int c;
-        
-        pair(int a, int b, int c){
-            this.a = a;
-            this.b = b;
-            this.c = c;
-        }
-        
-    }
+    public int[] dx = {1,0,0,-1}; //동남북서
+    public int[] dy = {0,1,-1,0};
     
     public int solution(int[][] maps) {
         int answer = 0;
-        int[] dx = {0,0,-1,1};
-        int[] dy = {1,-1,0,0};
-        
-        
-        
         int n = maps.length;
         int m = maps[0].length;
         
-        int[][] vis = new int[n][m];
+        Queue<Coor> qu = new LinkedList<>();
+        qu.add(new Coor(0,0,1));
         
-        Queue<pair> stack = new LinkedList<>();
+        int[][] visited = new int[n][m];
+        visited[0][0] = 0;
         
-        stack.offer(new pair(0,0,0));
-        
-        while(stack.isEmpty() != true){
-            pair now = stack.poll();
+        while(!qu.isEmpty()){
+            Coor now = qu.poll();
+            int currX = now.x;
+            int currY = now.y;
+            int currCount = now.count;
             
-            if(now.a == n-1 && now.b == m-1){
-                return now.c+1;
+            if(currX==n-1 && currY==m-1){
+                answer = currCount;
+                return answer;
             }
-            
-            for(int i = 0;i<4;i++){
-                if(now.a + dx[i] >= 0 && now.a + dx[i] <n &&  now.b + dy[i] >= 0 && 
-                  now.b + dy[i] < m && vis[now.a + dx[i]][now.b + dy[i]] == 0 && 
-                  maps[now.a + dx[i]][now.b + dy[i]] == 1){
-                    vis[now.a + dx[i]][now.b + dy[i]] = 1;
-                    stack.offer(new pair(now.a + dx[i],now.b + dy[i],now.c + 1));
+            // System.out.println("g");
+            for(int i=0; i<4; i++){
+                int nextX = currX + dx[i];
+                int nextY = currY + dy[i];
+                if(nextX< 0 || nextX >= n || nextY<0 || nextY >= m){
+                    continue;
+                }
+                if(maps[nextX][nextY] == 1 && visited[nextX][nextY] == 0){
+                    // 길이있고 방문하지 않았으면
+                    qu.add(new Coor(nextX, nextY, currCount + 1));
+                    visited[nextX][nextY] = 1; // 방문했으면 1
                 }
             }
         }
+        
         
         return -1;
     }
