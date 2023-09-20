@@ -3,50 +3,60 @@ import java.io.*;
 import java.math.*;
 
 class Solution {
-    static int[] uni;
     
-    static int find(int n){
-        if(uni[n] == n) return n;
-        else{
-            return uni[n] = find(uni[n]);
-        }
-    }
+    
     
     public int solution(int n, int[][] computers) {
+        int cnt = 0;
         
-        uni = new int[n];
+       List<Integer>[] re = new LinkedList[n];
         
-        for(int i =0 ;i<n;i++){
-            uni[i] = i;
-        }
+       for(int i = 0;i<n;i++){
+           re[i] = new LinkedList<Integer>();
+       }
         
-        for(int i  = 0;i<n;i++){
-            for(int j = 0;j<n;j++){
-                if(computers[i][j] == 1){
-                    int a = find(i);
-                    int b = find(j);
-                    
-                    if(a < b){
-                        uni[b] = uni[a];
-                    }
-                    else if(a > b){
-                        uni[a] = uni[a];
-                    }
-                }
-            }
-        }
+       for(int i = 0;i<n;i++){
+           for(int j = 0;j<n;j++){
+               if(computers[i][j] == 1){
+                   re[i].add(j);
+                   //re[j].add(i);
+               }
+           }
+       }
         
-        for(int i = 1;i<n;i++){
-            int a = find(i);
-        }
+        Stack<Integer> stack = new Stack<>();
         
-        HashMap<Integer, Integer> map = new HashMap<>();
+        int[] vis = new int[n];
+        
+        cnt = 0;
         
         for(int i = 0;i<n;i++){
-            map.put(uni[i],i);
-        }
+           if(vis[i] == 0){
+               stack.push(i);
+               
+               while(stack.isEmpty() != true){
+                   //System.out.println("dd");
+                   
+                   int k = stack.pop();
+                   
+                   for(int j = 0;j<re[k].size();j++){
+                   if(vis[re[k].get(j)] == 0){
+                       stack.push(re[k].get(j));
+                       vis[re[k].get(j)] = 1;
+                   }
+                }
+                   
+               }
+               
+               
+               cnt++;
+           }
+            
+   }
         
-        return map.size();
+        return cnt;
+                                               
+                                               
      
     }
 }
